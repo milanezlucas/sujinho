@@ -3,6 +3,8 @@ package model.beans;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,7 +16,9 @@ import javax.persistence.Table;
 @Table(name="Schedule")
 public class Schedule implements Serializable {
     @Id
-    private Integer id;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idSchedule;
     @Column(name="date")
     private String date;
     @Column(name="name")
@@ -25,7 +29,7 @@ public class Schedule implements Serializable {
     private String phone;
     @Column(name="status")
     private String status;
-    
+ 
     public Schedule () {
         date    = "";
         name    = "";
@@ -33,15 +37,15 @@ public class Schedule implements Serializable {
         phone   = "";
         status  = "";
     }
-    
-    public Integer getId() {
-        return id;
+
+    public Integer getIdSchedule() {
+        return idSchedule;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdSchedule(Integer idSchedule) {
+        this.idSchedule = idSchedule;
     }
-    
+        
     public String getDate() {
         return date;
     }

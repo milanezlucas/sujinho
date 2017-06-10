@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 public class MySQLScheduleDAO implements ScheduleDAO {
     private Session session;
 
+    @Override
     public boolean insertSchedule(Schedule schedule) {
         session = MySQLSujinhoDAOFactory.getInstance();
         Transaction tx = null;
@@ -20,13 +21,14 @@ public class MySQLScheduleDAO implements ScheduleDAO {
             return true;
         } catch (HibernateException ex) {
             ex.printStackTrace();
-            tx.rollback(); //Desfaz a operação de inserção
+            tx.rollback();
         } finally {
             session.close();
         }
         return false;
     }
     
+    @Override
     public List<Schedule> getSchedule() {
         List<Schedule> list = null;
 
@@ -47,5 +49,12 @@ public class MySQLScheduleDAO implements ScheduleDAO {
         }
          
         return null;
+    }
+    
+    @Override
+    public boolean editSchedule(Schedule schedule) {
+        session = MySQLSujinhoDAOFactory.getInstance();
+        
+        return false;
     }
 }

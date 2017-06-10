@@ -1,3 +1,4 @@
+<%@page import="com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int"%>
 <%@page import="model.dao.interfaces.ScheduleDAO"%>
 <%@page import="model.dao.MySQLSujinhoDAOFactory"%>
 <%@page import="model.beans.Schedule"%>
@@ -11,7 +12,7 @@ if (txtAction.contains("add-schedule")) {
     String txtName = request.getParameter("name");
     String txtCar = request.getParameter("car");
     String txtPhone = request.getParameter("phone");
-        
+    
     try {
         if (txtDate != null && txtName != null && txtCar != null && txtPhone != null && !txtDate.equals("") && !txtName.equals("") && !txtCar.equals("") && !txtPhone.equals("")) {
             try {
@@ -41,9 +42,7 @@ if (txtAction.contains("add-schedule")) {
     } finally {
         out.close();
     }
-} else if (txtAction.contains("get-schedule")) {
-    
-    
+} else if (txtAction.contains("get-schedule")) {  
     ScheduleDAO scheduleDAO = MySQLSujinhoDAOFactory.getScheduleDAO();
     
     StringBuilder strBuilder = new StringBuilder("");
@@ -58,8 +57,8 @@ if (txtAction.contains("add-schedule")) {
         } else {
             strBuilder.append("<td>" + schedule.getStatus() + "</td>");
         }
-        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Editar'><button class='btn btn-primary btn-xs' data-title='Editar' data-toggle='modal' data-target='#edit' data-id='" + schedule.getId() + "' data-name='" + schedule.getName() + "' data-car='" + schedule.getCar() + "'><span class='glyphicon glyphicon-pencil'></span></button></p></td>");
-        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Deletar'><button class='btn btn-danger btn-xs' data-title='Deletar' data-toggle='modal' data-target='#delete' data-id='" + schedule.getId() + "'><span class='glyphicon glyphicon-trash'></span></button></p></td>");
+        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Editar'><button class='btn btn-primary btn-xs btn-edit' data-title='Editar' data-toggle='modal' data-target='#edit' data-id='" + schedule.getIdSchedule() + "' data-name='" + schedule.getName() + "' data-car='" + schedule.getCar() + "'><span class='glyphicon glyphicon-pencil'></span></button></p></td>");
+        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Deletar'><button class='btn btn-danger btn-xs' data-title='Deletar' data-toggle='modal' data-target='#delete' data-id='" + schedule.getIdSchedule() + "'><span class='glyphicon glyphicon-trash'></span></button></p></td>");
         strBuilder.append("</tr>");
     }
     
@@ -67,6 +66,32 @@ if (txtAction.contains("add-schedule")) {
     rs.put("message", strBuilder.toString());
     
     out.print(rs.toString());
+} else if (txtAction.contains("edit-schedule")) {
+    Int txtId = request.getParameter("id");
+    String txtStatus = request.getParameter("status");
+    
+    try {
+        try {
+            Schedule schedule = new Schedule();
+            schedule.setIdSchedule(txtId);
+            schedule.setStatus(txtStatus);
+
+            ScheduleDAO scheduleDAO = MySQLSujinhoDAOFactory.getScheduleDAO();
+            if (scheduleDAO.editSchedule(schedule)) {
+                rs.put("success", true);
+                rs.put("message", "Cadastro editado com sucesso");
+            } else {
+                rs.put("success", false);
+                rs.put("message", "Não foi possível editar o cadastro");
+            }
+        } catch (Exception ex) {
+            rs.put("success", false);
+            rs.put("message", ex.getMessage());
+        }
+        out.print(rs.toString());
+    } finally {
+        out.close();
+    }    
 } else {
     rs.put("success", false);
     rs.put("message", "Sem ação");

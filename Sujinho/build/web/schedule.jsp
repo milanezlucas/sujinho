@@ -16,7 +16,7 @@
         $(document).ready(function(){            
             $("[data-toggle=tooltip]").tooltip();
             getSchedule();
-            
+                        
             // Cadastra agendamento
             $('#add-schedule').submit( function(e){
 		e.preventDefault();
@@ -53,7 +53,7 @@
 		});
             });
         });
-        
+               
         function getSchedule() {
             var info = {};
             info['action'] = "get-schedule";
@@ -69,11 +69,54 @@
                 success: function(r){
                     $('tbody').html(r.message);
                     $('#mytable').css('opacity', 1);
+                    editSchedule();
                 },
                 error: function(r){
+                   console.log(r);
                    $('tbody').html(r);
                    $('#mytable').css('opacity', 1);
                 }
+            });
+        }
+        
+        function editSchedule() {
+            $('.btn-edit').click(function (e){
+                $('input[name=edit-name]').val($(this).attr('data-name'));
+                $('input[name=edit-car]').val($(this).attr('data-car'));
+                $('input[name=edit-id]').val($(this).attr('data-id'));
+            });
+            
+            $('#edit-schedule').submit( function(e){
+		e.preventDefault();
+
+		var info = {};
+                info['action'] = $('input[name=edit-action]').val();
+                info['id'] = $('input[name=edit-id]').val();
+                info['status'] = $('select[name=edit-status]').val();
+
+		$.ajax({
+                    type:       'POST',
+                    url:        'http://localhost:8084/Sujinho/schedule-process.jsp',
+                    data:       info,
+                    dataType:   'json',
+                    beforeSend:     function() {
+                        $('.btn-edit-schedule').html('Enviando...').attr('disabled', true);
+                    },
+                    success: function( r ){
+                        if ( !r.success ) {
+                            $('.btn-edit-schedule').html(r.message).attr('disabled', true);
+                            setTimeout( function() {
+                                $('.btn-edit-schedule').html('Adicionar').attr('disabled', false);
+                            }, 5000 );
+                        } else {
+                            $('.btn-edit-schedule').html(r.message).attr('disabled', true);
+                            getSchedule();
+                        }
+                    },
+                    error: function(r){
+                        $('.btn-edit-schedule').html(r).attr('disabled', false);
+                    }
+		});
             });
         }
     </script>
@@ -148,24 +191,28 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                     <h4 class="modal-title custom_align" id="Heading">Editar Status</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Mohsin" disabled>
+                <form id="edit-schedule">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input class="form-control" type="text" name="edit-name" placeholder="Mohsin" disabled>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control " type="text" name="edit-car" placeholder="Fusca Azul 83" disabled>
+                        </div>
+                        <div class="form-group">
+                            <select name="edit-status" class="form-control">
+                                <option value="Aguardando">Aguardando</option>
+                                <option value="Lavando">Lavando</option>
+                                <option value="Finalizado">Finalizado</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input class="form-control " type="text" placeholder="Fusca Azul 83" disabled>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-warning btn-lg btn-edit-schedule" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>Atualizar Status</button>
+                        <input type="hidden" name="edit-action" value="edit-schedule">
+                        <input type="hidden" name="edit-id" value="">
                     </div>
-                    <div class="form-group">
-                        <select name="status" id="status" class="form-control">
-                            <option value="Aguardando">Aguardando</option>
-                            <option value="Lavando">Lavando</option>
-                            <option value="Finalizado">Finalizado</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer ">
-                    <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span>Atualizar Status</button>
-                </div>
+                </form>
             </div>
             <!-- /.modal-content --> 
         </div>

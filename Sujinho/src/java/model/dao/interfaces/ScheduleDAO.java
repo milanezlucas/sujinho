@@ -9,4 +9,5 @@ import model.beans.Schedule;
 public interface ScheduleDAO {
     public abstract boolean insertSchedule(Schedule schedule);
     public abstract List<Schedule> getSchedule();
+    public abstract boolean editSchedule(Schedule schedule);
 }
