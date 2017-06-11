@@ -1,4 +1,3 @@
-<%@page import="com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int"%>
 <%@page import="model.dao.interfaces.ScheduleDAO"%>
 <%@page import="model.dao.MySQLSujinhoDAOFactory"%>
 <%@page import="model.beans.Schedule"%>
@@ -58,7 +57,7 @@ if (txtAction.contains("add-schedule")) {
             strBuilder.append("<td>" + schedule.getStatus() + "</td>");
         }
         strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Editar'><button class='btn btn-primary btn-xs btn-edit' data-title='Editar' data-toggle='modal' data-target='#edit' data-id='" + schedule.getIdSchedule() + "' data-name='" + schedule.getName() + "' data-car='" + schedule.getCar() + "'><span class='glyphicon glyphicon-pencil'></span></button></p></td>");
-        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Deletar'><button class='btn btn-danger btn-xs' data-title='Deletar' data-toggle='modal' data-target='#delete' data-id='" + schedule.getIdSchedule() + "'><span class='glyphicon glyphicon-trash'></span></button></p></td>");
+        strBuilder.append("<td><p data-placement='top' data-toggle='tooltip' title='Deletar'><button class='btn btn-danger btn-xs btn-delete' data-title='Deletar' data-toggle='modal' data-target='#delete' data-id='" + schedule.getIdSchedule() + "'><span class='glyphicon glyphicon-trash'></span></button></p></td>");
         strBuilder.append("</tr>");
     }
     
@@ -67,6 +66,7 @@ if (txtAction.contains("add-schedule")) {
     
     out.print(rs.toString());
 } else if (txtAction.contains("edit-schedule")) {
+    /*
     Int txtId = request.getParameter("id");
     String txtStatus = request.getParameter("status");
     
@@ -92,7 +92,34 @@ if (txtAction.contains("add-schedule")) {
     } finally {
         out.close();
     }    
-} else {
+    */ 
+} else if (txtAction.contains("delete-schedule")) {
+    /*
+    Int txtId = request.getParameter("id");
+    
+    try {
+        try {
+            Schedule schedule = new Schedule();
+            schedule.setIdSchedule(txtId);
+
+            ScheduleDAO scheduleDAO = MySQLSujinhoDAOFactory.getScheduleDAO();
+            if (scheduleDAO.editSchedule(schedule)) {
+                rs.put("success", true);
+                rs.put("message", "Cadastro excluido com sucesso");
+            } else {
+                rs.put("success", false);
+                rs.put("message", "Não foi possível excluir o cadastro");
+            }
+        } catch (Exception ex) {
+            rs.put("success", false);
+            rs.put("message", ex.getMessage());
+        }
+        out.print(rs.toString());
+    } finally {
+        out.close();
+    }
+    */
+}else {
     rs.put("success", false);
     rs.put("message", "Sem ação");
 }

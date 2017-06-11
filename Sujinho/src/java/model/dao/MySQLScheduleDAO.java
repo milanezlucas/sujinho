@@ -55,6 +55,35 @@ public class MySQLScheduleDAO implements ScheduleDAO {
     public boolean editSchedule(Schedule schedule) {
         session = MySQLSujinhoDAOFactory.getInstance();
         
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.update(schedule);
+            tx.commit();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean deleteSchedule(Schedule schedule) {
+        session = MySQLSujinhoDAOFactory.getInstance();
+        
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.delete(schedule);
+            tx.commit();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            tx.rollback();
+        } finally {
+            session.close();
+        }
         return false;
     }
 }

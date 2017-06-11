@@ -70,6 +70,7 @@
                     $('tbody').html(r.message);
                     $('#mytable').css('opacity', 1);
                     editSchedule();
+                    deleteSchedule();
                 },
                 error: function(r){
                    console.log(r);
@@ -115,6 +116,44 @@
                     },
                     error: function(r){
                         $('.btn-edit-schedule').html(r).attr('disabled', false);
+                    }
+		});
+            });
+        }
+        
+        function deleteSchedule() {
+            $('.btn-delete').click(function (e){
+                $('input[name=delete-id]').val($(this).attr('data-id'));
+            });
+            
+            $('#delete-schedule').submit( function(e){
+		e.preventDefault();
+
+		var info = {};
+                info['action'] = $('input[name=delete-action]').val();
+                info['id'] = $('input[name=delete-id]').val();
+
+		$.ajax({
+                    type:       'POST',
+                    url:        'http://localhost:8084/Sujinho/schedule-process.jsp',
+                    data:       info,
+                    dataType:   'json',
+                    beforeSend:     function() {
+                        $('.btn-delete-schedule').html('Enviando...').attr('disabled', true);
+                    },
+                    success: function( r ){
+                        if ( !r.success ) {
+                            $('.btn-delete-schedule').html(r.message).attr('disabled', true);
+                            setTimeout( function() {
+                                $('.btn-delete-schedule').html('Adicionar').attr('disabled', false);
+                            }, 5000 );
+                        } else {
+                            $('.btn-delete-schedule').html(r.message).attr('disabled', true);
+                            getSchedule();
+                        }
+                    },
+                    error: function(r){
+                        $('.btn-delete-schedule').html(r).attr('disabled', false);
                     }
 		});
             });
@@ -226,13 +265,17 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
                     <h4 class="modal-title custom_align" id="Heading">Excluir</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Tem certeza que deseja excluir?</div>
+                <form id="delete-schedule">
+                    <div class="modal-body">
+                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Tem certeza que deseja excluir?</div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="submit" class="btn btn-success btn-delete-schedule" ><span class="glyphicon glyphicon-ok-sign"></span> Sim</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Não</button>
+                        <input type="hidden" name="delete-action" value="delete-schedule">
+                        <input type="hidden" name="delete-id" value="">
                 </div>
-                <div class="modal-footer ">
-                    <button type="button" class="btn btn-success" ><span class="glyphicon glyphicon-ok-sign"></span> Sim</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Não</button>
-                </div>
+                </form>
             </div>
             <!-- /.modal-content --> 
         </div>
