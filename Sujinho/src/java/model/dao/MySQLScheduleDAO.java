@@ -4,6 +4,7 @@ import java.util.List;
 import model.beans.Schedule;
 import model.dao.interfaces.ScheduleDAO;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -57,9 +58,16 @@ public class MySQLScheduleDAO implements ScheduleDAO {
         
         Transaction tx = null;
         try {
-            tx = session.beginTransaction();
-            session.update(schedule);
-            tx.commit();
+            Query query = session.createQuery("UPDATE Schedule SET status = :status WHERE id = :id");
+            query.setParameter("status", schedule.getStatus());
+            query.setParameter("id", schedule.getIdSchedule());
+            
+            int rs = query.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (HibernateException ex) {
             ex.printStackTrace();
             tx.rollback();
@@ -75,9 +83,16 @@ public class MySQLScheduleDAO implements ScheduleDAO {
         
         Transaction tx = null;
         try {
-            tx = session.beginTransaction();
-            session.delete(schedule);
-            tx.commit();
+            Query query = session.createQuery("UPDATE Schedule SET del = :del WHERE id = :id");
+            query.setParameter("del", "1");
+            query.setParameter("id", schedule.getIdSchedule());
+            
+            int rs = query.executeUpdate();
+            if (rs > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (HibernateException ex) {
             ex.printStackTrace();
             tx.rollback();
