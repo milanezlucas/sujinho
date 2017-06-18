@@ -29,6 +29,8 @@ public class Schedule implements Serializable {
     private String phone;
     @Column(name="status")
     private String status;
+    @Column(name="del")
+    private String del;
  
     public Schedule () {
         date    = "";
@@ -85,4 +87,14 @@ public class Schedule implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getDel() {
+        return del;
+    }
+
+    public void setDel(String del) {
+        this.del = del;
+    }
+    
+    
 }

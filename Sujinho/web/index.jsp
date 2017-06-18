@@ -15,7 +15,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         jQuery( document ).ready( function () {
-            window.document.location.href = "http://localhost:8084/Sujinho/schedule.jsp";
             $('#login').submit(function(e) {
                 e.preventDefault();
                 

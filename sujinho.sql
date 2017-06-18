@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 10-Jun-2017 às 16:31
--- Versão do servidor: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Generation Time: 18-Jun-2017 às 15:26
+-- Versão do servidor: 10.1.13-MariaDB
+-- PHP Version: 5.6.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,17 +32,18 @@ CREATE TABLE `schedule` (
   `name` varchar(255) NOT NULL,
   `car` varchar(255) NOT NULL,
   `phone` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` varchar(255) NOT NULL,
+  `del` varchar(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `date`, `name`, `car`, `phone`, `status`) VALUES
-(1, '25/03/2017', 'Lucas', 'Fiesta', '1436538008', ''),
-(2, '25/03/2017 19:00', 'Teste 2', 'Fiat Palio', '1436538008', ''),
-(3, '25/03/2017 19:50', 'Teste 3', 'Gol', '1436538008', '');
+INSERT INTO `schedule` (`id`, `date`, `name`, `car`, `phone`, `status`, `del`) VALUES
+(1, '25/03/2017', 'Lucas', 'Fiesta', '1436538008', '', ''),
+(2, '25/03/2017 19:00', 'Teste 2', 'Fiat Palio', '1436538008', '', ''),
+(3, '25/03/2017 19:50', 'Teste 3', 'Gol', '1436538008', '', '');
 
 -- --------------------------------------------------------
 
