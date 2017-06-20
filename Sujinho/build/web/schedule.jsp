@@ -11,9 +11,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     
-    
+   
     <script>
         $(document).ready(function(){            
+                       
             $("[data-toggle=tooltip]").tooltip();
             getSchedule();
                         
@@ -161,7 +162,11 @@
     </script>
 </head>
 <body>
-    
+    <div class="container" style="margin-top:30px">
+        <div class="col-md-12 text-center">
+            <img src="resouces/img/sujinho.png" alt="Sujinho LavaCar">
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">

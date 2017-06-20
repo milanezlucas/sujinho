@@ -7,9 +7,9 @@ String txtAction = request.getParameter("action");
 JSONObject rs = new JSONObject();
 
 if (txtAction.contains("add-schedule")) {
-    String txtDate = request.getParameter("date");
-    String txtName = request.getParameter("name");
-    String txtCar = request.getParameter("car");
+    String txtDate  = request.getParameter("date");
+    String txtName  = request.getParameter("name");
+    String txtCar   = request.getParameter("car");
     String txtPhone = request.getParameter("phone");
     
     try {

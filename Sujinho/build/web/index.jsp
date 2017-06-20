@@ -15,7 +15,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         jQuery( document ).ready( function () {
-            window.document.location.href = "http://localhost:8084/Sujinho/schedule.jsp";
             $('#login').submit(function(e) {
                 e.preventDefault();
                 
@@ -49,6 +48,11 @@
     </script>
 </head>
 <body>
+    <div class="container" style="margin-top:30px">
+        <div class="col-md-12 text-center">
+            <img src="resouces/img/sujinho.png" alt="Sujinho LavaCar">
+        </div>
+    </div>
     <div class="container" style="margin-top:30px">
         <div class="col-md-4 col-md-offset-4">
             <div class="panel panel-default">
